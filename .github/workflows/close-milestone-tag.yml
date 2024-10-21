@@ -1,0 +1,14 @@
+name: Close milestone from pushed tag
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  MilestoneClose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Milestone
+        uses: WyriHaximus/github-action-close-milestone@0.1.0
+        with:
+          number: ${{ github.ref_name }}
