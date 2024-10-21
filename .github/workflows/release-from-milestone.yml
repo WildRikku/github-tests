@@ -1,4 +1,5 @@
 name: Release from milestone - Action
+on: [push]
 jobs:
   Build-Release-ZIP-Action:
     runs-on: ubuntu-latest
