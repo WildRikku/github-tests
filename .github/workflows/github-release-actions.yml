@@ -30,7 +30,6 @@ jobs:
         uses: docker://decathlon/release-notes-generator-action:2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILENAME: releasenotes
 
       - name: List files in the repository
         run: |
@@ -60,7 +59,7 @@ jobs:
           prerelease: false
           release_name: V${{ steps.version.outputs.version }}-draft
           tag_name: ${{ steps.version.outputs.version }}-draft
-          body_path: releasenotes.md
+          body_path: release_file.md
 
       - name: upload main.zip to release
         uses: actions/upload-release-asset@v1
