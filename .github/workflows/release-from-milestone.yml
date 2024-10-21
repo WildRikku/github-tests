@@ -1,0 +1,10 @@
+name: Release from milestone - Action
+jobs:
+  Build-Release-ZIP-Action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release from milestone
+        uses: radcortez/milestone-release-action@main
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          milestone-title: '1.3.4'
