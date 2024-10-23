@@ -20,4 +20,5 @@ jobs:
     - name: Github bla
       env:
         GH_TOKEN: ${{ github.token }}
-      run: gh status
+        MILESTONE: 1.2.3
+      run: "echo '{\"state\": \"closed\"}' | gh api --method PATCH repos/:owner/:repo/milestones/$MILESTONE --input -"
