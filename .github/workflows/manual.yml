@@ -16,11 +16,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    
     - name: Github bla
       env:
         GH_TOKEN: ${{ github.token }}
         MILESTONE: 1.2.3
       run: "export MILESTONENR=$(gh api /repos/{owner}/{repo}/milestones | jq '.[] | select(.title==env.MILESTONE) | .number')"
+      
     - name: Github check
       run: "echo $MILESTONENR"
