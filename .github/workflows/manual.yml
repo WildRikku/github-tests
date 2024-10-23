@@ -21,4 +21,6 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
         MILESTONE: 1.2.3
-      run: "echo '{\"state\": \"closed\"}' | gh api --method PATCH repos/:owner/:repo/milestones/${{GITHUB_REF##*/}} --input -"
+      run: "export MILESTONENR={gh api /repos/{owner}/{repo}/milestones | jq '.[] | select(.title==\"$MILESTONE\") | .number'}"
+    - name: Github check
+      run: "echo $MILESTONENR"
