@@ -5,7 +5,9 @@ name: gh test
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
-  [push]
+  push:
+    tags:
+      - '*.*.*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,11 +24,9 @@ jobs:
     - name: Github bla
       env:
         GH_TOKEN: ${{ github.token }}
-        MILESTONE: 1.2.3
+        MILESTONE: ${{ github.ref_name }}
       run: |
+        echo $MILESTONE
         MILESTONENR=$(gh api /repos/{owner}/{repo}/milestones | jq '.[] | select(.title==env.MILESTONE) | .number')
         echo '{"state": "closed"}' | gh api --method PATCH repos/{owner}/{repo}/milestones/$MILESTONENR --input -
         
-      
-    - name: Github check
-      run: "echo $MILESTONENR"
