@@ -23,7 +23,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
         MILESTONE: 1.2.3
-      run: "export MILESTONENR=$(gh api /repos/{owner}/{repo}/milestones | jq '.[] | select(.title==env.MILESTONE) | .number')"
+      run: "MILESTONENR=$(gh api /repos/{owner}/{repo}/milestones | jq '.[] | select(.title==env.MILESTONE) | .number')"
       
     - name: Github check
       run: "echo $MILESTONENR"
