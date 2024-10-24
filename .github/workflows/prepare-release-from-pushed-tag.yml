@@ -47,12 +47,9 @@ jobs:
         run: ls ${{ github.workspace }}
 
       - name: Create release draft
-        uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        with:
-          draft: true
-          prerelease: false
-          release_name: ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
-          body_path: release_file.md
+          MILESTONE: ${{ github.ref_name }}
+        run: |
+          gh release create "$MILESTONE" --notes-file release_file.md --draft --verify-tag --title "$MILESTONE (draft)"
+          gh release upload "$MILESTONE" main.zip
