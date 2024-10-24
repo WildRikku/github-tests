@@ -22,13 +22,12 @@ jobs:
         run: |
           PLUGIN_VERSION=$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)
           echo "Plugin Version in code: $PLUGIN_VERSION"
-          if [ "$PLUGIN_VERSION" != "$TAG_ID" ]; then exit 0; fi
-        # DEBUG TODO change exit code to 1
+          if [ "$PLUGIN_VERSION" != "$TAG_ID" ]; then exit 1; fi
 
       - name: Build ZIP archive
         run: zip -r main.zip * -i '\octoprint_*' 'translations' 'README.md' 'requirements.txt' 'setup.py' 'LICENSE.txt'
 
-      - name: Find and close milestone
+      - name: Find and close milestone with same name as tag
         env:
           GH_TOKEN: ${{ github.token }}
           MILESTONE: ${{ github.ref_name }}
