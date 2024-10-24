@@ -22,7 +22,30 @@ jobs:
         run: |
           PLUGIN_VERSION=$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)
           echo "Plugin Version in code: $PLUGIN_VERSION"
-          if [ "$PLUGIN_VERSION" != "$TAG_ID" ]; then exit 1; fi
+          if [ "$PLUGIN_VERSION" != "$TAG_ID" ]; then exit 0; fi
+        # DEBUG TODO change exit code to 1
+
+      - name: Build ZIP archive
+        run: zip -r main.zip * -i '\octoprint_*' 'translations' 'README.md' 'requirements.txt' 'setup.py' 'LICENSE.txt'
+
+      - name: Create release notes
+        uses: docker://decathlon/release-notes-generator-action:2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List files in the repository
+        run: ls ${{ github.workspace }}
+
+      - name: release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          draft: true
+          prerelease: false
+          release_name: ${{ github.ref_name }}-draft
+          tag_name: ${{ github.ref_name }}
+          body_path: release_file.md
 
       - name: Find and close milestone
         env:

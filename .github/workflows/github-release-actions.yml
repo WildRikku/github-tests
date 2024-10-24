@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@master
 
       - run: echo "Read current plugin version..."
-      - run: export PLUGIN_VERSION=$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)
+      - run: PLUGIN_VERSION=$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)
       - run: echo "Plugin Version  $PLUGIN_VERSION ${PLUGIN_VERSION}"
 
       - name: Build ZIP archive
@@ -44,9 +44,8 @@ jobs:
       - name: Repository and Branch name
         id: branch
         run: |
-               export branch_name=${GITHUB_REF##*/}
-               echo "::set-output name=branch_name::$branch_name"
-               echo running on branch $branch_name
+               echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+               echo running on branch $BRANCH_NAME
                export repo_name=${GITHUB_REPOSITORY#*/}
                echo "::set-output name=repo_name::$repo_name"
 
