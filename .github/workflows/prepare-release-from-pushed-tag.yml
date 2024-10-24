@@ -39,7 +39,7 @@ jobs:
           echo '{"state": "closed"}' | gh api --method PATCH repos/{owner}/{repo}/milestones/$MILESTONE_NUMBER --input -
 
       - name: Create release notes
-        uses: Decathlon/release-notes-generator-action@latest
+        uses: Decathlon/release-notes-generator-action@3.1.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
