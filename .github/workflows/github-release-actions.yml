@@ -1,0 +1,79 @@
+###
+### Simple script to build a zip file of the whole repository
+###
+## Major - Tasks:
+#  - ZIP
+#  - Build draft release
+#  - Attach Zip
+#  - Download Zip
+
+name: Build Plugin Release - Action
+#on: [push]
+on: 
+  milestone:
+    types: [closed]
+jobs:
+  Build-Release-ZIP-Action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@master
+
+      - run: echo "Read current plugin version..."
+      - run: export PLUGIN_VERSION=$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)
+      - run: echo "Plugin Version  $PLUGIN_VERSION ${PLUGIN_VERSION}"
+
+      - name: Build ZIP archive
+        run: zip -r main.zip * -i '\octoprint_*' 'translations' 'README.md' 'requirements.txt' 'setup.py' 'LICENSE.txt'
+
+      - name: Create release ntoes
+        uses: docker://decathlon/release-notes-generator-action:2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+
+      - run: cat release_file.md
+
+      - name: version
+        run: echo "::set-output name=version::$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)"
+        id: version
+
+      - name: Repository and Branch name
+        id: branch
+        run: |
+               export branch_name=${GITHUB_REF##*/}
+               echo "::set-output name=branch_name::$branch_name"
+               echo running on branch $branch_name
+               export repo_name=${GITHUB_REPOSITORY#*/}
+               echo "::set-output name=repo_name::$repo_name"
+
+      - name: release
+        uses: actions/create-release@latest
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          draft: true
+          commitish: ${{ steps.branch.outputs.branch_name }}
+          prerelease: false
+          release_name: V${{ steps.version.outputs.version }}-draft
+          tag_name: ${{ steps.version.outputs.version }}-draft
+          body_path: release_file.md
+
+      - name: upload main.zip to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: main.zip
+          asset_name: main.zip
+          asset_content_type: application/gzip
+
+      - name: download main.zip
+        run: curl -O -J -L -v https://github.com/dojohnso/${{ steps.branch.outputs.repo_name }}/releases/download/${{ steps.version.outputs.version }}/main.zip
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
