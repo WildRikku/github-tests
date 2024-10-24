@@ -1,8 +1,7 @@
-name: Closed Milestone - inform issues
-
+name: Release published - inform issues
 on:
-  milestone:
-    types: [closed]
+  release:
+    types: [released] # only releases, no pre-releases
 
 permissions:
   issues: write
@@ -15,6 +14,6 @@ jobs:
       - uses: bflad/action-milestone-comment@v2
         with:
           body: |
-            This functionality has been released in ${{ github.event.milestone.title }}.
+            This functionality has been released in ${{ github.release.tag_name }}.
 
-            For further feature requests or bug reports with this functionality, please create a [new GitHub issue](https://github.com/${{ github.repository }}/issues/new/choose) following the template. Thank you!
+            For further feature requests or bug reports with this functionality, please create a [new GitHub issue](https://github.com/${{ github.repository }}/issues/new). Thank you!
