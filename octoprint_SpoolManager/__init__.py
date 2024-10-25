@@ -9,19 +9,19 @@ from flask import request
 from octoprint.events import Events
 from octoprint.util.comm import MachineCom
 
-from octoprint_SpoolManager.DatabaseManager import DatabaseManager
-# from octoprint_SpoolManager.Odometer import FilamentOdometer
+from octoprint_TestPlugin.DatabaseManager import DatabaseManager
+# from octoprint_TestPlugin.Odometer import FilamentOdometer
 
-from octoprint_SpoolManager.newodometer import NewFilamentOdometer
+from octoprint_TestPlugin.newodometer import NewFilamentOdometer
 
-from octoprint_SpoolManager.api import Transformer
-from octoprint_SpoolManager.api.SpoolManagerAPI import SpoolManagerAPI
-from octoprint_SpoolManager.common import StringUtils
-from octoprint_SpoolManager.common.SettingsKeys import SettingsKeys
-from octoprint_SpoolManager.common.EventBusKeys import EventBusKeys
+from octoprint_TestPlugin.api import Transformer
+from octoprint_TestPlugin.api.TestPluginAPI import TestPluginAPI
+from octoprint_TestPlugin.common import StringUtils
+from octoprint_TestPlugin.common.SettingsKeys import SettingsKeys
+from octoprint_TestPlugin.common.EventBusKeys import EventBusKeys
 
-class SpoolmanagerPlugin(
-                            SpoolManagerAPI,
+class TestpluginPlugin(
+                            TestPluginAPI,
                             octoprint.plugin.SimpleApiPlugin,
                             octoprint.plugin.SettingsPlugin,
                             octoprint.plugin.AssetPlugin,
@@ -177,7 +177,7 @@ class SpoolmanagerPlugin(
 
     def _sendPayload2EventBus(self, eventKey, eventPayload):
 
-        eventName = "plugin_spoolmanager_" + eventKey
+        eventName = "plugin_testplugin_" + eventKey
         self._logger.info("Send Event '"+eventName+"' with payload '"+str(eventPayload)+"' to event-bus")
         self._event_bus.fire(eventName, payload=eventPayload)
 
@@ -672,7 +672,7 @@ class SpoolmanagerPlugin(
         # if (event != "RegisteredMessageReceived"):
         #   print("*** EVENT: " + event)
         #
-        # if ("plugin_spoolmanager" in event):
+        # if ("plugin_testplugin" in event):
         #   print(payload)
         #   pass
 
@@ -864,22 +864,22 @@ class SpoolmanagerPlugin(
                 "js/ResetSettingsUtilV3.js",
                 "js/ComponentFactory.js",
                 "js/TableItemHelper.js",
-                "js/SpoolManager.js",
-                "js/SpoolManager-APIClient.js",
-                "js/SpoolManager-FilterSorter.js",
-                "js/SpoolManager-SpoolSelectionTableComp.js",
-                "js/SpoolManager-EditSpoolDialog.js",
-                "js/SpoolManager-ImportDialog.js",
-                "js/SpoolManager-DatabaseConnectionProblemDialog.js"
+                "js/TestPlugin.js",
+                "js/TestPlugin-APIClient.js",
+                "js/TestPlugin-FilterSorter.js",
+                "js/TestPlugin-SpoolSelectionTableComp.js",
+                "js/TestPlugin-EditSpoolDialog.js",
+                "js/TestPlugin-ImportDialog.js",
+                "js/TestPlugin-DatabaseConnectionProblemDialog.js"
             ],
             css=[
                 "css/quill.snow.css",
                 "css/select2.min.css",
                 "css/jquery.datetimepicker.min.css",
                 "css/pick-a-color-1.1.8.min.css",
-                "css/SpoolManager.css"
+                "css/TestPlugin.css"
             ],
-            less=["less/SpoolManager.less"]
+            less=["less/TestPlugin.less"]
         )
 
     ##~~ Softwareupdate hook
@@ -888,14 +888,14 @@ class SpoolmanagerPlugin(
         # Plugin here. See https://docs.octoprint.org/en/master/bundledplugins/softwareupdate.html
         # for details.
         return dict(
-            SpoolManager=dict(
-                displayName="SpoolManager Plugin",
+            TestPlugin=dict(
+                displayName="TestPlugin Plugin",
                 displayVersion=self._plugin_version,
 
                 # version check: github repository
                 type="github_release",
                 user="WildRikku",
-                repo="OctoPrint-SpoolManager",
+                repo="github-tests",
                 current=self._plugin_version,
 
                 # Release channels
@@ -913,7 +913,7 @@ class SpoolmanagerPlugin(
                 ],
 
                 # update method: pip
-                pip="https://github.com/WildRikku/OctoPrint-SpoolManager/releases/download/{target_version}/main.zip"
+                pip="https://github.com/WildRikku/github-tests/releases/download/{target_version}/main.zip"
             )
         )
 
@@ -940,12 +940,12 @@ class SpoolmanagerPlugin(
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
-__plugin_name__ = "SpoolManager Plugin"
+__plugin_name__ = "TestPlugin Plugin"
 __plugin_pythoncompat__ = ">=2.7,<4"
 
 def __plugin_load__():
     global __plugin_implementation__
-    __plugin_implementation__ = SpoolmanagerPlugin()
+    __plugin_implementation__ = TestpluginPlugin()
 
     global __plugin_hooks__
     __plugin_hooks__ = {

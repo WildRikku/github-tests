@@ -15,14 +15,14 @@ import qrcode
 from io import BytesIO     # for handling byte strings
 from math import pi as PI
 
-from octoprint_SpoolManager import DatabaseManager
-from octoprint_SpoolManager.models.SpoolModel import SpoolModel
-from octoprint_SpoolManager.common import StringUtils, CSVExportImporter
-from octoprint_SpoolManager.api import Transformer
-from octoprint_SpoolManager.common.SettingsKeys import SettingsKeys
-from octoprint_SpoolManager.common.EventBusKeys import EventBusKeys
+from octoprint_TestPlugin import DatabaseManager
+from octoprint_TestPlugin.models.SpoolModel import SpoolModel
+from octoprint_TestPlugin.common import StringUtils, CSVExportImporter
+from octoprint_TestPlugin.api import Transformer
+from octoprint_TestPlugin.common.SettingsKeys import SettingsKeys
+from octoprint_TestPlugin.common.EventBusKeys import EventBusKeys
 
-class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
+class TestPluginAPI(octoprint.plugin.BlueprintPlugin):
     def is_blueprint_csrf_protected(self):
         return True
 
@@ -314,7 +314,7 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
         allSpoolModels.append(spoolModel)
         return Response(CSVExportImporter.transform2CSV(allSpoolModels),
                         mimetype='text/csv',
-                        headers={'Content-Disposition': 'attachment; filename=SpoolManager-SAMPLE.csv'})
+                        headers={'Content-Disposition': 'attachment; filename=TestPlugin-SAMPLE.csv'})
 
     ##############################################################################################   ALLOWED TO PRINT
     @octoprint.plugin.BlueprintPlugin.route("/allowedToPrint", methods=["GET"])
@@ -520,8 +520,8 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
         spoolModelAsDict = None
         if (spoolModel != None):
             spoolModelAsDict = Transformer.transformSpoolModelToDict(spoolModel)
-            #Take us back to the SpoolManager plugin tab
-            redirectURLWithSpoolSelection = flask.url_for("index", _external=True)+"#tab_plugin_SpoolManager-spoolId"+str(databaseId)
+            #Take us back to the TestPlugin plugin tab
+            redirectURLWithSpoolSelection = flask.url_for("index", _external=True)+"#tab_plugin_TestPlugin-spoolId"+str(databaseId)
             return flask.redirect(redirectURLWithSpoolSelection,307)
         else:
             abort(404)
@@ -566,7 +566,7 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
                 error_correction=qrcode.constants.ERROR_CORRECT_H
             )
 
-            # spoolSelectionUrl = flask.url_for("plugin.SpoolManager.selectSpoolByQRCode", _external=True, _scheme="https", databaseId=databaseId)
+            # spoolSelectionUrl = flask.url_for("plugin.TestPlugin.selectSpoolByQRCode", _external=True, _scheme="https", databaseId=databaseId)
             spoolSelectionUrl = None
 
             useURLPrefix = None
@@ -582,9 +582,9 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
                 if (qrCodeUrlPrefix == None):
                     qrCodeUrlPrefix = self._settings.get([SettingsKeys.SETTINGS_KEY_QR_CODE_URL_PREFIX])
 
-                spoolSelectionUrl = qrCodeUrlPrefix + "/plugin/SpoolManager/selectSpoolByQRCode/"+databaseId
+                spoolSelectionUrl = qrCodeUrlPrefix + "/plugin/TestPlugin/selectSpoolByQRCode/"+databaseId
             else:
-                spoolSelectionUrl = flask.url_for("plugin.SpoolManager.selectSpoolByQRCode", _external=True, databaseId=databaseId)
+                spoolSelectionUrl = flask.url_for("plugin.TestPlugin.selectSpoolByQRCode", _external=True, databaseId=databaseId)
 
             qrMaker.add_data(spoolSelectionUrl)
             qrMaker.make(fit=True, )
@@ -620,7 +620,7 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
             htmlContent = \
                         "<h3>Database Id: " + str(databaseId) + "</h3>" \
                         "<h3>Spoolname: " + spoolModel.displayName + "</h3>" \
-                        "<img loading='lazy' src='/plugin/SpoolManager/generateQRCode/"+str(databaseId)+"' />"
+                        "<img loading='lazy' src='/plugin/TestPlugin/generateQRCode/"+str(databaseId)+"' />"
         else:
             htmlContent = "<h3>Spool with database Id not found</h3>"
 
@@ -759,7 +759,7 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
     def downloadDatabase(self):
         return send_file(self._databaseManager.getDatabaseSettings().fileLocation,
                          mimetype='application/octet-stream',
-                         download_name='spoolmanager.db',
+                         download_name='testplugin.db',
                          as_attachment=True)
 
 
@@ -826,7 +826,7 @@ class SpoolManagerAPI(octoprint.plugin.BlueprintPlugin):
 
             now = datetime.datetime.now()
             currentDate = now.strftime("%Y%m%d-%H%M")
-            fileName = "SpoolManager-" + currentDate + ".csv"
+            fileName = "TestPlugin-" + currentDate + ".csv"
 
             csv = []
             for csvline in CSVExportImporter.transform2CSV(allSpoolModels):

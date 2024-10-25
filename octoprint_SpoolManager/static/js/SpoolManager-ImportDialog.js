@@ -1,5 +1,5 @@
 
-function SpoolManagerImportDialog(){
+function TestPluginImportDialog(){
 
     var self = this;
 
@@ -21,7 +21,7 @@ function SpoolManagerImportDialog(){
     this.init = function(apiClient){
         self.apiClient = apiClient;
 
-        self.importSpoolItemDialog = $("#dialog_spoolManager_csvImportStatus");
+        self.importSpoolItemDialog = $("#dialog_testPlugin_csvImportStatus");
 
     }
 

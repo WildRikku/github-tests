@@ -31,7 +31,7 @@ function SpoolsFilterSorter(filterSorterId, spoolsArrayKO) {
     self.selectedColorsForFilter = ko.observableArray();
 
     //////////////////////////////////////////////////////////////////// browser storage
-    var storageKeyPrefix = "spoolmanager.filtersorter." + filterSorterId + ".";
+    var storageKeyPrefix = "testplugin.filtersorter." + filterSorterId + ".";
 
     self._loadFilterSelectionsFromBrowserStorage = function(){
         if (!Modernizr.localstorage) {

@@ -1,8 +1,8 @@
 ---
 layout: plugin
 
-id: SpoolManager
-title: OctoPrint-SpoolManager
+id: TestPlugin
+title: OctoPrint-TestPlugin
 description: Plugin to manage Spools
 author: dojohnso
 license: AGPLv3
@@ -10,9 +10,9 @@ license: AGPLv3
 # TODO
 date: today's date in format YYYY-MM-DD, e.g. 2015-04-21
 
-homepage: https://github.com/you/OctoPrint-SpoolManager
-source: https://github.com/you/OctoPrint-SpoolManager
-archive: https://github.com/you/OctoPrint-SpoolManager/archive/main.zip
+homepage: https://github.com/you/OctoPrint-TestPlugin
+source: https://github.com/you/OctoPrint-TestPlugin
+archive: https://github.com/you/OctoPrint-TestPlugin/archive/main.zip
 
 # TODO
 # Set this to true if your plugin uses the dependency_links setup parameter to include
@@ -86,4 +86,4 @@ compatibility:
 ---
 
 **TODO**: Longer description of your plugin, configuration examples etc. This part will be visible on the page at
-http://plugins.octoprint.org/plugin/SpoolManager/
+http://plugins.octoprint.org/plugin/TestPlugin/

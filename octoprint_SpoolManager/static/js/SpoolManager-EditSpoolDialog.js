@@ -1,5 +1,5 @@
 // Dialog functionality
-function SpoolManagerEditSpoolDialog(){
+function TestPluginEditSpoolDialog(){
 
     var self = this;
 

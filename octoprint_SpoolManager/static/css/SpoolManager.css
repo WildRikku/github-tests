@@ -22,7 +22,7 @@
 }
 
 /* needed, because selection flyout was not fully visible, see #204 */
-/*#sidebar_plugin_SpoolManager.collapse.in {*/
+/*#sidebar_plugin_TestPlugin.collapse.in {*/
 /*    overflow: visible;*/
 /*}*/
 

@@ -1,5 +1,5 @@
 /*
- * View model for OctoPrint-SpoolManager
+ * View model for OctoPrint-TestPlugin
  *
  * Author: OllisGit
  * License: AGPLv3
@@ -46,13 +46,13 @@ $("#colorFilter").select2({
 
 $(function() {
 
-    var PLUGIN_ID = "SpoolManager"; // from setup.py plugin_identifier
+    var PLUGIN_ID = "TestPlugin"; // from setup.py plugin_identifier
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////// VIEW MODEL
-    function SpoolManagerViewModel(parameters) {
+    function TestPluginViewModel(parameters) {
 
-        var PLUGIN_ID = "SpoolManager"; // from setup.py plugin_identifier
+        var PLUGIN_ID = "TestPlugin"; // from setup.py plugin_identifier
 
         var self = this;
 
@@ -66,8 +66,8 @@ $(function() {
 
         self.pluginSettings = null;
 
-        self.apiClient = new SpoolManagerAPIClient(PLUGIN_ID, BASEURL);
-        self.spoolDialog = new SpoolManagerEditSpoolDialog();
+        self.apiClient = new TestPluginAPIClient(PLUGIN_ID, BASEURL);
+        self.spoolDialog = new TestPluginEditSpoolDialog();
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////// HELPER FUNCTION
@@ -82,7 +82,7 @@ $(function() {
             // Table visibility
             self.initTableVisibilities();
 
-            var storageKey = "spoolmanager.table.selectedPageSize";
+            var storageKey = "testplugin.table.selectedPageSize";
             if (localStorage[storageKey] == null){
                 localStorage[storageKey] = "25"; // default page size
             } else {
@@ -149,9 +149,9 @@ $(function() {
 
             var source = "";
             if (showHtmlView == "htmlView"){
-                source = PLUGIN_BASEURL + "SpoolManager/generateQRCodeView/" + databaseId + "" + requestParameters;
+                source = PLUGIN_BASEURL + "TestPlugin/generateQRCodeView/" + databaseId + "" + requestParameters;
             } else {
-                source = PLUGIN_BASEURL + "SpoolManager/generateQRCode/" + databaseId+ "" + requestParameters;
+                source = PLUGIN_BASEURL + "TestPlugin/generateQRCode/" + databaseId+ "" + requestParameters;
             }
             var title = "QR-Code for " + spoolDisplayName;
             return {
@@ -251,7 +251,7 @@ $(function() {
         }
 
         self.deleteDatabaseAction = function(databaseType) {
-            var result = confirm("Do you really want to delete all SpoolManager data?");
+            var result = confirm("Do you really want to delete all TestPlugin data?");
             if (result == true){
 //  TODO cleanup
 //                var databaseSettings = {
@@ -293,7 +293,7 @@ $(function() {
         self.csvFileUploadName = ko.observable();
         self.csvImportInProgress = ko.observable(false);
 
-        self.csvImportDialog = new SpoolManagerImportDialog();
+        self.csvImportDialog = new TestPluginImportDialog();
         self.csvImportUploadButton = $("#settings-spool-importcsv-upload");
         self.csvImportUploadData = undefined;
         self.csvImportUploadButton.fileupload({
@@ -371,7 +371,7 @@ $(function() {
 
         // QR-Code stuff
         self.generateQRCodeTestLink = function(){
-            var source = self.pluginSettings.qrCodeURLPrefix() + "/plugin/SpoolManager/selectSpoolByQRCode/qrPreviewId";
+            var source = self.pluginSettings.qrCodeURLPrefix() + "/plugin/TestPlugin/selectSpoolByQRCode/qrPreviewId";
             var title = "This link is used for the QR-Code";
             return {
                 href: source,
@@ -450,7 +450,7 @@ $(function() {
                         var element = '<!-- ko if: spoolsWithWeight().length < 1 -->  <span><strong>Required Filament unknown</strong></span><br/> <!-- /ko -->';
                         element += '<!-- ko foreach: spoolsWithWeight --> <span data-bind="text: \'Tool \' + toolIndex + \': \', attr: {title: \'Filament usage for Spool \' + spoolName}"></span><strong data-bind="html: $root.formatSpoolsWithWeight($data)"></strong><br> <!-- /ko -->';
 
-                        element += '<div data-bind="visible: settings.settings.plugins.SpoolManager.extrusionDebuggingEnabled">';
+                        element += '<div data-bind="visible: settings.settings.plugins.TestPlugin.extrusionDebuggingEnabled">';
                         element += '<!-- ko foreach: extrusionValues -->';
                         element += '<div>Extruded Tool <span data-bind="text: $index"></span>: <strong data-bind="text: $data.toFixed(2)"></strong></div>';
                         element += '<!-- /ko -->';
@@ -588,7 +588,7 @@ $(function() {
             var commitCurrentSpoolValues;
             if (self.printerStateViewModel.isPrinting()) {
                 commitCurrentSpoolValues = confirm(
-                    'You are changing a spool while printing. SpoolManager will commit the usage so far to the previous spool, unless you wish otherwise.\n\n' +
+                    'You are changing a spool while printing. TestPlugin will commit the usage so far to the previous spool, unless you wish otherwise.\n\n' +
                     'Commit the usage of the print so far…\n' +
                     '"OK": …to the previously selected spool\n' +
                     '"Cancel": …to the new spool'
@@ -691,7 +691,7 @@ $(function() {
             }
 
             assignVisibility = function(attributeName){
-                var storageKey = "spoolmanager.table.visible." + attributeName;
+                var storageKey = "testplugin.table.visible." + attributeName;
                 if (localStorage[storageKey] == null){
                     // localStorage[storageKey] = true; // default value
                     localStorage[storageKey] = self.tableAttributeVisibility[attributeName](); // default value
@@ -1147,15 +1147,15 @@ $(function() {
 
         self.onAfterTabChange = function(current, previous){
             // alert("Next:"+next +" Current:"+previous);
-            //if ("#tab_plugin_SpoolManager" == current){
+            //if ("#tab_plugin_TestPlugin" == current){
             // var selectedSpoolId = getUrlParameter("selectedSpoolId");
             // if (selectedSpoolId) {
             //     console.error("Id"+selectedSpoolId);
             // }
             var tabHashCode = window.location.hash;
             // QR-Code-Call: We can only contain -spoolId on the very first page
-            if (tabHashCode.includes("#tab_plugin_SpoolManager-spoolId")){
-                var selectedSpoolId = tabHashCode.replace("-spoolId", "").replace("#tab_plugin_SpoolManager", "");
+            if (tabHashCode.includes("#tab_plugin_TestPlugin-spoolId")){
+                var selectedSpoolId = tabHashCode.replace("-spoolId", "").replace("#tab_plugin_TestPlugin", "");
                 selectedSpoolId = parseInt(selectedSpoolId);
                 console.info('Loading spool: '+selectedSpoolId);
                 var alreadyInTool = self.getSpoolItemSelectedTool(selectedSpoolId);
@@ -1173,8 +1173,8 @@ $(function() {
                 var commitCurrentSpoolValues = false;
                 var toolIndex = 0
                 self.apiClient.callSelectSpool(0, selectedSpoolId, commitCurrentSpoolValues, function(responseData){
-                    //Select the SpoolManager tab
-                    $('a[href="#tab_plugin_SpoolManager"]').tab('show')
+                    //Select the TestPlugin tab
+                    $('a[href="#tab_plugin_TestPlugin"]').tab('show')
                     var spoolItem = null;
                     var spoolData = responseData["selectedSpool"];
                     if (spoolData != null){
@@ -1195,7 +1195,7 @@ $(function() {
      * and a full list of the available options.
      */
     OCTOPRINT_VIEWMODELS.push({
-        construct: SpoolManagerViewModel,
+        construct: TestPluginViewModel,
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
         dependencies: [
             "loginStateViewModel",
@@ -1204,11 +1204,11 @@ $(function() {
             "filesViewModel",
             "printerProfilesViewModel"
         ],
-        // Elements to bind to, e.g. #settings_plugin_SpoolManager, #tab_plugin_SpoolManager, ...
+        // Elements to bind to, e.g. #settings_plugin_TestPlugin, #tab_plugin_TestPlugin, ...
         elements: [
-            document.getElementById("settings_spoolmanager"),
+            document.getElementById("settings_testplugin"),
             document.getElementById("tab_spoolOverview"),
-            document.getElementById("modal-dialogs-spoolManager"),
+            document.getElementById("modal-dialogs-testPlugin"),
             document.getElementById("sidebar_spool_select")
         ]
     });

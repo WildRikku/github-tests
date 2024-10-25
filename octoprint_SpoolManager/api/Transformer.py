@@ -1,8 +1,8 @@
 # coding=utf-8
 from __future__ import absolute_import
 
-from octoprint_SpoolManager.models.SpoolModel import SpoolModel
-from octoprint_SpoolManager.common import StringUtils
+from octoprint_TestPlugin.models.SpoolModel import SpoolModel
+from octoprint_TestPlugin.common import StringUtils
 
 def calculateRemainingWeight(usedWeight, totalWeight):
 	if (usedWeight == None or totalWeight == None):

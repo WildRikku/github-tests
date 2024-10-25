@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from peewee import CharField, Model, DecimalField, FloatField, DateField, DateTimeField, TextField, IntegerField, \
 	BooleanField
 
-from octoprint_SpoolManager.models.BaseModel import BaseModel
+from octoprint_TestPlugin.models.BaseModel import BaseModel
 
 
 class SpoolModel(BaseModel):

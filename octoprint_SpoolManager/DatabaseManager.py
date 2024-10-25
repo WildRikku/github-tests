@@ -8,17 +8,17 @@ import logging
 import shutil
 import sqlite3
 
-from octoprint_SpoolManager.WrappedLoggingHandler import WrappedLoggingHandler
+from octoprint_TestPlugin.WrappedLoggingHandler import WrappedLoggingHandler
 from peewee import *
 
-from octoprint_SpoolManager.api import Transformer
-from octoprint_SpoolManager.common import StringUtils
-from octoprint_SpoolManager.models.BaseModel import BaseModel
-from octoprint_SpoolManager.models.PluginMetaDataModel import PluginMetaDataModel
-from octoprint_SpoolManager.models.SpoolModel import SpoolModel
+from octoprint_TestPlugin.api import Transformer
+from octoprint_TestPlugin.common import StringUtils
+from octoprint_TestPlugin.models.BaseModel import BaseModel
+from octoprint_TestPlugin.models.PluginMetaDataModel import PluginMetaDataModel
+from octoprint_TestPlugin.models.SpoolModel import SpoolModel
 
-# from octoprint_SpoolManager.models.MaterialModel import MaterialModel
-# from octoprint_SpoolManager.models.MaterialCharacteristicModel import MaterialCharacteristicModel
+# from octoprint_TestPlugin.models.MaterialModel import MaterialModel
+# from octoprint_TestPlugin.models.MaterialCharacteristicModel import MaterialCharacteristicModel
 
 FORCE_CREATE_TABLES = False
 
@@ -61,7 +61,7 @@ class DatabaseManager(object):
 	# "type": "postgres",
 	# "host": "localhost",
 	# "port": 5432,
-	# "databaseName": "SpoolManagerDatabase",
+	# "databaseName": "TestPluginDatabase",
 	# "user": "Olli",
 	# "password": "illO"
 
@@ -565,7 +565,7 @@ class DatabaseManager(object):
 
 
 	def _createDatabaseTables(self):
-		self._logger.info("Creating new database tables for spoolmanager-plugin")
+		self._logger.info("Creating new database tables for testplugin-plugin")
 		self._database.connect(reuse_if_open=True)
 		self._database.drop_tables(MODELS)
 		self._database.create_tables(MODELS)
@@ -587,7 +587,7 @@ class DatabaseManager(object):
 	################################################################################################### public functions
 	@staticmethod
 	def buildDefaultDatabaseFileLocation(pluginDataBaseFolder):
-		databaseFileLocation = os.path.join(pluginDataBaseFolder, "spoolmanager.db")
+		databaseFileLocation = os.path.join(pluginDataBaseFolder, "testplugin.db")
 		return databaseFileLocation
 
 	def initDatabase(self, databaseSettings, sendMessageToClient):
@@ -734,13 +734,13 @@ class DatabaseManager(object):
 				self._logger.exception("Could not read databasescheme version:" + str(e))
 
 			backupDatabaseFilePath = self._databaseSettings.fileLocation[0:-3] + "-backup-V" + currentSchemeVersion + "-" +currentDate+".db"
-			# backupDatabaseFileName = "spoolmanager-backup-"+currentDate+".db"
+			# backupDatabaseFileName = "testplugin-backup-"+currentDate+".db"
 			# backupDatabaseFilePath = os.path.join(backupFolder, backupDatabaseFileName)
 			if not os.path.exists(backupDatabaseFilePath):
 				shutil.copy(self._databaseSettings.fileLocation, backupDatabaseFilePath)
-				self._logger.info("Backup of spoolmanager database created '" + backupDatabaseFilePath + "'")
+				self._logger.info("Backup of testplugin database created '" + backupDatabaseFilePath + "'")
 			else:
-				self._logger.warning("Backup of spoolmanager database ('" + backupDatabaseFilePath + "') is already present. No backup created.")
+				self._logger.warning("Backup of testplugin database ('" + backupDatabaseFilePath + "') is already present. No backup created.")
 			return backupDatabaseFilePath
 		else:
 			self._logger.info("No database backup needed, because there is no databasefile '"+str(self._databaseSettings.fileLocation)+"'")

@@ -2,22 +2,22 @@ import os
 import pprint
 import unittest
 
-from octoprint_SpoolManager import DatabaseManager, SpoolManagerAPI
+from octoprint_TestPlugin import DatabaseManager, TestPluginAPI
 import logging
 
-from octoprint_SpoolManager.models.SpoolModel import SpoolModel
+from octoprint_TestPlugin.models.SpoolModel import SpoolModel
 
 class TestDatabase(unittest.TestCase):
 
 	sqliteDatabaseSettings = DatabaseManager.DatabaseSettings()
 	sqliteDatabaseSettings.useExternal = False
-	sqliteDatabaseSettings.baseFolder = "/Users/o0632/Library/Application Support/OctoPrint/data/SpoolManager/"
+	sqliteDatabaseSettings.baseFolder = "/Users/o0632/Library/Application Support/OctoPrint/data/TestPlugin/"
 
 	postgresDatabaseSettings = DatabaseManager.DatabaseSettings()
 	postgresDatabaseSettings.type = "postgres"
 	postgresDatabaseSettings.host = "localhost"
 	postgresDatabaseSettings.port = 5432
-	postgresDatabaseSettings.name = "spoolmanagerdb"
+	postgresDatabaseSettings.name = "testplugindb"
 	postgresDatabaseSettings.user = "Olli"
 	postgresDatabaseSettings.password = "illO"
 
@@ -25,7 +25,7 @@ class TestDatabase(unittest.TestCase):
 	mysqlDatabaseSettings.type = "mysql"
 	mysqlDatabaseSettings.host = "localhost"
 	mysqlDatabaseSettings.port = 3306
-	mysqlDatabaseSettings.name = "spoolmanagerdb"
+	mysqlDatabaseSettings.name = "testplugindb"
 	mysqlDatabaseSettings.user = "Olli"
 	mysqlDatabaseSettings.password = "illO"
 
@@ -50,7 +50,7 @@ class TestDatabase(unittest.TestCase):
 		# 	"type": "postgres",
 		# 	"host": "localhost",
 		# 	"port": 5432,
-		# 	"databaseName": "spoolmanagerdb",
+		# 	"databaseName": "testplugindb",
 		# 	"user": "Olli",
 		# 	"password": "illO"
 		# }

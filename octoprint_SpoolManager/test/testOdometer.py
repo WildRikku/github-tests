@@ -1,8 +1,8 @@
 import logging
 import unittest
 
-from octoprint_SpoolManager import NewFilamentOdometer
-from octoprint_SpoolManager.Odometer import FilamentOdometer
+from octoprint_TestPlugin import NewFilamentOdometer
+from octoprint_TestPlugin.Odometer import FilamentOdometer
 
 
 class TestOdometer(unittest.TestCase):

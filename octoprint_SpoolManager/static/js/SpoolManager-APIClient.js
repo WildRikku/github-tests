@@ -1,6 +1,6 @@
 
 
-function SpoolManagerAPIClient(pluginId, baseUrl) {
+function TestPluginAPIClient(pluginId, baseUrl) {
 
     this.pluginId = pluginId;
     this.baseUrl = baseUrl;

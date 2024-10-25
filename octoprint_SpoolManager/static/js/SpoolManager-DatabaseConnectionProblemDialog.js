@@ -18,7 +18,7 @@ function DatabaseConnectionProblemDialog(){
     self.init = function(apiClient){
         self.apiClient = apiClient;
 
-        self.problemDialog = $("#dialog_spoolManager_databaseConnectionProblem");
+        self.problemDialog = $("#dialog_testPlugin_databaseConnectionProblem");
     }
 
     self.isInitialized = function() {

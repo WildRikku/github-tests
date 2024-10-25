@@ -60,9 +60,9 @@ function SpoolSelectionTableComp() {
 
 
         //////////////////////////////////////////////////////////////////// browser storage
-        // var storageKeyPrefix = "spoolmanager.filtersorter." + filterSorterId + ".";
+        // var storageKeyPrefix = "testplugin.filtersorter." + filterSorterId + ".";
         // All SpoolSelectionTableComponents use the same storage
-        var storageKeyPrefix = "spoolmanager.filtersorter.";
+        var storageKeyPrefix = "testplugin.filtersorter.";
 
         self._loadFilterSelectionsFromBrowserStorage = function(){
             if (!Modernizr.localstorage) {

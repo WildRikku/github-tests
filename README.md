@@ -1,8 +1,8 @@
-# OctoPrint-SpoolManager
+# OctoPrint-TestPlugin
 
-[![Version](https://img.shields.io/badge/dynamic/json.svg?color=brightgreen&label=version&url=https://api.github.com/repos/WildRikku/OctoPrint-SpoolManager/releases&query=$[0].name)]()
-[![Released](https://img.shields.io/badge/dynamic/json.svg?color=brightgreen&label=released&url=https://api.github.com/repos/WildRikku/OctoPrint-SpoolManager/releases&query=$[0].published_at)]()
-![GitHub Releases (by Release)](https://img.shields.io/github/downloads/WildRikku/OctoPrint-SpoolManager/latest/total.svg)
+[![Version](https://img.shields.io/badge/dynamic/json.svg?color=brightgreen&label=version&url=https://api.github.com/repos/WildRikku/OctoPrint-TestPlugin/releases&query=$[0].name)]()
+[![Released](https://img.shields.io/badge/dynamic/json.svg?color=brightgreen&label=released&url=https://api.github.com/repos/WildRikku/OctoPrint-TestPlugin/releases&query=$[0].published_at)]()
+![GitHub Releases (by Release)](https://img.shields.io/github/downloads/WildRikku/OctoPrint-TestPlugin/latest/total.svg)
 
 The OctoPrint-Plugin manages all spool informations and stores it in a database.
 
@@ -17,7 +17,7 @@ Note that this does not necessarily mean that this plugin will not work with old
 - [X] Spool basic attributes, like name,  color, material, vendor ...
 - [X] "Used length" and "Remaining weight"
 - [X] Additional notes
-- [X] CSV Export of "Legacy FilamentManager-Database" and SpoolManager
+- [X] CSV Export of "Legacy FilamentManager-Database" and TestPlugin
 - [X] CSV Import function
 - [ ] Labels
 
@@ -40,7 +40,7 @@ Note that this does not necessarily mean that this plugin will not work with old
 - [ ] External Database (IN PROGRESS)
 - [ ] PrintJobHistory integration [PrintJobHistory-Plugin](https://github.com/dojohnso/OctoPrint-PrintJobHistory)
 - [ ] Capture Spool-Image
-- [ ] ...more planing details could be found [here](https://github.com/dojohnso/OctoPrint-SpoolManager/projects/1)
+- [ ] ...more planing details could be found [here](https://github.com/dojohnso/OctoPrint-TestPlugin/projects/1)
 
 ## Screenshots
 <!---
@@ -58,7 +58,7 @@ Note that this does not necessarily mean that this plugin will not work with old
 Install via the bundled [Plugin Manager](http://docs.octoprint.org/en/master/bundledplugins/pluginmanager.html)
 or manually using this URL:
 
-    https://github.com/dojohnso/OctoPrint-SpoolManager/releases/latest/download/main.zip
+    https://github.com/dojohnso/OctoPrint-TestPlugin/releases/latest/download/main.zip
 
 After installation, you can listen on three release channels (since 1.6.0).
 What does this mean: Each channel has its own release-version and each release has a different kind of functionality and stability.
@@ -78,7 +78,7 @@ At the meantime you need to uninstall and install the version you like from the 
 
 ## Versions
 
-see [Release-Overview](https://github.com/dojohnso/OctoPrint-SpoolManager/releases/)
+see [Release-Overview](https://github.com/dojohnso/OctoPrint-TestPlugin/releases/)
 
 
 ---
@@ -91,15 +91,15 @@ Plugin sends the following custom events to the eventbus like this:
 
 | EventKeys                             |
 | ------------------------------------ |
-| plugin_spoolmanager_spool_weight_updated_after_print |
-| plugin_spoolmanager_spool_selected |
-| plugin_spoolmanager_spool_deselected |
-| plugin_spoolmanager_spool_added |
-| plugin_spoolmanager_spool_deleted |
+| plugin_testplugin_spool_weight_updated_after_print |
+| plugin_testplugin_spool_selected |
+| plugin_testplugin_spool_deselected |
+| plugin_testplugin_spool_added |
+| plugin_testplugin_spool_deleted |
 
 HINT: In combination with the [MQTT Plugin](https://github.com/OctoPrint/OctoPrint-MQTT) you can subscribe e.g. to this topic:
 ```
-octoPrint/event/plugin_spoolmanager_spool_deselected
+octoPrint/event/plugin_testplugin_spool_deselected
 ```
 
 
@@ -130,12 +130,12 @@ _spool_deleted_
 ```
 Other Plugins could listen to this events in there python-code like this:
 
-    eventmanager.subscribe("plugin_spoolmanager_spool_selected", self._myEventListener)
+    eventmanager.subscribe("plugin_testplugin_spool_selected", self._myEventListener)
 
 or use `octoprint.plugin.EventHandlerPlugin` with something like this:
 
     def on_event(self, event, payload):
-        if event == "plugin_spoolmanager_spool_selected":
+        if event == "plugin_testplugin_spool_selected":
             ## do something usefull
 ---
 

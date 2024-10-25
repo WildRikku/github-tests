@@ -783,7 +783,7 @@
           }).on(clickEvent, function (event) {
             var distance = windowTopPosition - $(window).scrollTop();
             if (supportsTouch && (Math.abs(distance) > 0)) {
-              // issue https://github.com/OllisGit/OctoPrint-SpoolManager/issues/188
+              // issue https://github.com/OllisGit/OctoPrint-TestPlugin/issues/188
                 return ;
             } else {
               theseArguments.thisEvent = event; //add the click event to the arguments object
