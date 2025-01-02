@@ -29,7 +29,7 @@ jobs:
           MILESTONE=${MILESTONE_PARTS[0]}
           echo $MILESTONE
           echo "MILESTONE=${MILESTONE_PARTS[0]} >> $GITHUB_ENV"
-          MILESTONE_NUMBER=$(gh api /repos/{owner}/{repo}/milestones | jq '.[] | select(.title=="$MILESTONE") | .number')
+          MILESTONE_NUMBER=$(gh api /repos/{owner}/{repo}/milestones | jq --arg MILESTONE "$MILESTONE" '.[] | select(.title=="\($MILESTONE)") | .number')
           echo "MILESTONE_NUMBER=$MILESTONE_NUMBER" >> $GITHUB_ENV
           echo '{"state": "closed"}' | gh api --method PATCH repos/{owner}/{repo}/milestones/$MILESTONE_NUMBER --input -
 
