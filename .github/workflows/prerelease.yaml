@@ -16,14 +16,6 @@ jobs:
       - name: Check out repository code # this step uses another repo so it just needs a name and "uses"
         uses: actions/checkout@v2
 
-      - name: Check current version against tag # this step is coded directly into this file
-        env:
-          TAG_ID: ${{ github.ref_name }} # pass this GitHub variable into the script
-        run: |
-          PLUGIN_VERSION=$(cat setup.py | grep 'plugin_version = "*"' | cut -d '"' -f2)
-          echo "Plugin Version in code: $PLUGIN_VERSION"
-          if [ "$PLUGIN_VERSION" != "$TAG_ID" ]; then exit 1; fi
-
       - name: Build ZIP archive
         run: zip -r main.zip * -i '\octoprint_*' 'translations' 'README.md' 'requirements.txt' 'setup.py' 'LICENSE.txt'
 

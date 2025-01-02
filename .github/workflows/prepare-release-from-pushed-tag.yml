@@ -2,7 +2,7 @@ name: Tag pushed - prepare release
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.*' # keep it generic but mostly numerical for versions. note that these are glob patterns, not regex
+      - '[0-9]+.[0-9]+.[0-9]+' # keep it generic but mostly numerical for versions. note that these are glob patterns, not regex
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,7 +27,7 @@ jobs:
       - name: Build ZIP archive
         run: zip -r main.zip * -i '\octoprint_*' 'translations' 'README.md' 'requirements.txt' 'setup.py' 'LICENSE.txt'
 
-      - name: Find and close milestone with same name as tag
+      - name: Find and close milestone with same name as tag # and save it to env for use with the release notes generator
         env:
           GH_TOKEN: ${{ github.token }}
           MILESTONE: ${{ github.ref_name }}
@@ -37,7 +37,7 @@ jobs:
           echo "MILESTONE_NUMBER=$MILESTONE_NUMBER" >> $GITHUB_ENV
           echo '{"state": "closed"}' | gh api --method PATCH repos/{owner}/{repo}/milestones/$MILESTONE_NUMBER --input -
 
-      - name: Create release notes
+      - name: Create release notes # this is another step with an external repo, this time with a variable passed
         uses: WildRikku/release-notes-generator-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,5 +50,5 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           MILESTONE: ${{ github.ref_name }}
         run: |
-          gh release create "$MILESTONE" --notes-file release_file.md --draft --verify-tag --title "$MILESTONE (draft)"
+          gh release create "$MILESTONE" --notes-file release_file.md --draft --verify-tag --title "Version $MILESTONE (draft)"
           gh release upload "$MILESTONE" main.zip
